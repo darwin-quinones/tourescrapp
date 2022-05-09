@@ -37,7 +37,7 @@
             <div class="contenedor__login-register">
                 <!--===== LOGIN =====-->
                 
-                <form action="{% url 'login' %}" class="formulario__login" method="POST">{% csrf_token %}
+                <form action="{% url 'login_view' %}" class="formulario__login" method="POST">{% csrf_token %}
                     {% if messages %}
                         {% for message in messages %}
                             {% if message.tags == 'error' %}

@@ -7,16 +7,18 @@ from selenium import webdriver
 import csv
 from .models import User
 from django.contrib import messages
+#ingreso user
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 import json
-
-
+# incriptaciones
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Create your views here.
 def home(request):
     return render(request, 'login.html')
 
-def login(request):
+def login_view(request):
     if(request.method == 'POST'):
         email = request.POST['email']
         password = request.POST['password']
@@ -24,7 +26,8 @@ def login(request):
         try:
             user = User.objects.get(email=email)
             print(user.nombres)
-            if user.password == password:
+            # verificacion constraseña encriptada
+            if check_password_hash(user.password, password) == True:
                 request.session['id'] = user.id
                 request.session['nombres'] = user.nombres
                 request.session['email'] = user.email
@@ -37,6 +40,7 @@ def login(request):
         except:
             messages.info(request, 'Correo incorrecto')
     return redirect('home')
+
 
 def index(request):
     return render(request, 'index.html')
@@ -60,10 +64,14 @@ def sign_up(request):
         password = data['password'].strip()
         print(nombres, apellidos, email, genero, tipo_identificacion, identificacion, fecha_naci, telefono, lugar_reci, username, password)
         
+        # incriptarcion password
+        password_hashed = generate_password_hash(password)
+        print('password hashed: ',password_hashed)
+       
         try:
             #se crea un nuevo user
             new_user = User.objects.create(
-            nombres=nombres, apellidos=apellidos, email=email, username=username, password=password, telefono=telefono,
+            nombres=nombres, apellidos=apellidos, email=email, username=username, password=password_hashed, telefono=telefono,
             genero=genero, tipo_identificacion=tipo_identificacion, identificacion=identificacion, fecha_nacimiento=fecha_naci, lugar_recidencia=lugar_reci)
         except:
            pass
@@ -72,9 +80,13 @@ def sign_up(request):
     return redirect('home')
 
 
+#hospedaje
 
+def hospedaje(request):
+    return render(request, 'hospedaje/hospedaje.html')
 
-
+def expe_culinaria(request):
+    return render(request, 'hospedaje/expe_culinaria.html')
 def tabla(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
@@ -98,4 +110,4 @@ def tabla(request):
         df = pd.DataFrame([lists])
         df.to_csv("file.csv", index=False, mode='a', header=False)
         i = i + 1
-    return render(request, 'tabla.html')
+    return render(request, 'hospedaje/tabla.html')

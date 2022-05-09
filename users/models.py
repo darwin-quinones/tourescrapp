@@ -8,7 +8,7 @@ class User(models.Model):
     apellidos = models.CharField(max_length=60)
     email = models.EmailField(max_length=60)
     username = models.CharField(max_length=60)
-    password = models.CharField(max_length=20)
+    password = models.CharField(max_length=250)
     lugar_recidencia = models.CharField(max_length=60)
     genero = models.CharField(max_length=20)
     telefono = models.CharField(max_length=20)

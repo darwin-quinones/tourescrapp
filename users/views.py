@@ -11,6 +11,7 @@ from django.http import JsonResponse
 import json
 
 
+
 # Create your views here.
 def home(request):
     return render(request, 'login.html')
@@ -42,23 +43,25 @@ def index(request):
 
 def sign_up(request):
     if(request.method == 'POST'):
+        #se recibe la data que viene de la visata
         data = json.loads(request.body)
-        print(data['nombres'])
         
-        nombres = data['nombres']
-        apellidos = data['apellidos']
-        email = data['email']
-        genero = data['genero']
-        tipo_identificacion = data['tipo_identificacion']
-        identificacion = data['identificacion']
-        fecha_naci = data['fecha_naci']
-        telefono = data['telefono']
-        lugar_reci = data['lugar_reci']
-        username = data['username']
-        password = data['password']
+        #se crean nuevas variables
+        nombres = data['nombres'].strip()
+        apellidos = data['apellidos'].strip()
+        email = data['email'].strip()
+        genero = data['genero'].strip()
+        tipo_identificacion = data['tipo_identificacion'].strip()
+        identificacion = data['identificacion'].strip()
+        fecha_naci = data['fecha_naci'].strip()
+        telefono = data['telefono'].strip()
+        lugar_reci = data['lugar_reci'].strip()
+        username = data['username'].strip()
+        password = data['password'].strip()
         print(nombres, apellidos, email, genero, tipo_identificacion, identificacion, fecha_naci, telefono, lugar_reci, username, password)
         
         try:
+            #se crea un nuevo user
             new_user = User.objects.create(
             nombres=nombres, apellidos=apellidos, email=email, username=username, password=password, telefono=telefono,
             genero=genero, tipo_identificacion=tipo_identificacion, identificacion=identificacion, fecha_nacimiento=fecha_naci, lugar_recidencia=lugar_reci)

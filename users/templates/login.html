@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -66,27 +66,27 @@
 
 
                 <!--===== REGISTRO DE USUARIOS =====-->
-                <form class="formulario__register" style="width:800px;" action="{% url 'sign_up' %}" method="POST">{% csrf_token %}
+                <form class="formulario__register" style="width:800px;" method="POST">{% csrf_token %}
                     <H2>Registrarse</H2>
                     <div class="container">
                         <div class="row">
                             <div class="col-4 pb-4">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" name="" id="nombres" placeholder="Nombres" >
+                                <input type="text" name="" id="nombres" placeholder="Nombres" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" name="" id="apellidos" placeholder="Apellidos" >
+                                <input type="text" name="" id="apellidos" placeholder="Apellidos" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="" id="email" placeholder="username@gmail.com" >
+                                <input type="email" name="" id="email" placeholder="username@gmail.com" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Género</label>
-                                <select name="" id="genero" class="form-select" aria-label="Default select example">
+                                <select name="" id="genero" class="form-select" aria-label="Default select example" required>
                                     <option selected>Selecciona...</option>
                                     <option value="M">Masculino</option>
                                     <option value="F">Femenino</option>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Tipo Identificación</label>
-                                <select name="" id="tipo_identificacion" class="form-select" aria-label="Default select example">
+                                <select name="" id="tipo_identificacion" class="form-select" aria-label="Default select example" required>
                                     <option selected>Selecciona...</option>
                                     <option value="CC">Cédula</option>
                                     <option value="TI">T. Identidad</option>
@@ -104,37 +104,37 @@
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Identificación</label>
-                                <input type="number" name="" id="identificacion" placeholder="Identificación" >
+                                <input type="number" name="" id="identificacion" placeholder="Identificación" required>
                             </div>
                         </div>
                         <div class="row">
                            
                             <div class="col-4">
                                 <label class="form-label">Fecha nacimiento</label>
-                                <input type="date" name="" id="fecha_naci" placeholder="Fecha nacimiento" >
+                                <input type="date" name="" id="fecha_naci" placeholder="Fecha nacimiento" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Télefono</label>
-                                <input type="number" name="" id="telefono" placeholder="Télefono" >
+                                <input type="number" name="" id="telefono" placeholder="Télefono" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Lugar de recidencia</label>
-                                <input type="text" name="" id="lugar_reci" placeholder="Recidencia" >
+                                <input type="text" name="" id="lugar_reci" placeholder="Recidencia" required>
                             </div>
                         </div>
                         <div class="row">
                             
                             <div class="col-4">
                                 <label class="form-label">Nombre de usuario</label>
-                                <input type="text" name="" id="username" placeholder="@username" >
+                                <input type="text" name="" id="username" placeholder="@username" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Contraseña</label>
-                                <input type="password" name="" id="password" placeholder="*********" >
+                                <input type="password" name="" id="password" placeholder="*********" required>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Confirmar Contraseña</label>
-                                <input type="password" name="" id="conf_password" placeholder="Confirmar Contraseña" >
+                                <input type="password" name="" id="conf_password" placeholder="Confirmar Contraseña" required>
                             </div>
                             
                         </div>
@@ -164,50 +164,57 @@
             signUp()
         })
         function signUp(){
-            alert('sign up')
-            let nombres = $('#nombres').val()
-            let apellidos = $('#apellidos').val()
-            let email = $('#email').val()
+            
+            let nombres = $('#nombres').val().trim()
+            let apellidos = $('#apellidos').val().trim()
+            let email = $('#email').val().trim()
             let genero = $('#genero').val()
             let tipo_identificacion = $('#tipo_identificacion').val()
             let identificacion = $('#identificacion').val()
             let fecha_naci = $('#fecha_naci').val()
             let telefono = $('#telefono').val()
             let lugar_reci = $('#lugar_reci').val()
-            let username = $('#username').val()
-            let password = $('#password').val()
-            let conf_password = $('#conf_password').val()
-
-            data = {
-                nombres: nombres,
-                apellidos: apellidos,
-                email: email,
-                genero: genero,
-                tipo_identificacion: tipo_identificacion,
-                identificacion: identificacion,
-                fecha_naci: fecha_naci,
-                telefono: telefono,
-                lugar_reci: lugar_reci,
-                username: username,
-                password: password,
-                conf_password: conf_password
-            }
-            $.ajax({
-              
-                headers: {
-                    'Content-Type':'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                url: "{% url 'sign_up' %}",
-                type: 'POST',
-                data: JSON.stringify(data),
-                success: function(response){
-                    alert('success')
-                },
-                error: function(){
-                    alert('error')
+            let username = $('#username').val().trim()
+            let password = $('#password').val().trim()
+            let conf_password = $('#conf_password').val().trim()
+            console.log(genero, tipo_identificacion)
+            if(nombres === "" || apellidos === "" || email === "" || genero === "Selecciona..." || tipo_identificacion === "Selecciona..." || identificacion === ""|| telefono === "" || lugar_reci ==="" || fecha_naci === "" ||  password === "" || conf_password === ""  ||username ==="" ){
+                alert('Llene todos los campos')
+            }else if(password != conf_password){
+                alert('las contraseñas no coinciden')
+            }else{
+                data = {
+                    nombres: nombres,
+                    apellidos: apellidos,
+                    email: email,
+                    genero: genero,
+                    tipo_identificacion: tipo_identificacion,
+                    identificacion: identificacion,
+                    fecha_naci: fecha_naci,
+                    telefono: telefono,
+                    lugar_reci: lugar_reci,
+                    username: username,
+                    password: password,
                 }
-            })
+                $.ajax({
+                  
+                    headers: {
+                        'Content-Type':'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    url: "{% url 'sign_up' %}",
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    success: function(response){
+                        alert('usuario creado')
+                        location.reload();
+                    },
+                    error: function(){
+                        alert('hubo un error')
+                    }
+                })
+            }
+           
 
             /* Funcion de configuracion de django-jquery */
             function getCookie(name) {

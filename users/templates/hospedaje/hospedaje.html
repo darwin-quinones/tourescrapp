@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header">
-        <a name="" id="" class="btn btn-success" href="{% url 'crear_hotel' %}" role="button">Agregar</a>
+        <a name="" id="" class="btn btn-success" href="{% url 'crear_hotel' %}" role="button">Crear</a>
     </div>
     <div class="card-body">
         <h4 class="card-title">Libros</h4>
@@ -23,7 +23,7 @@
                 {% if hotels %}
                     {% for hotel in hotels %}
                         <tr>
-                            <td>{{libro.forloop}}</td>
+                            <td>{{forloop.counter}}</td>
                             <td>{{ hotel.imagen }}</td>
                             <td>{{ hotel.nombre }}</td>
                             <td>{{ hotel.precio }}</td>

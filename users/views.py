@@ -15,7 +15,9 @@ import json
 # incriptaciones
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Create your views here.
+# django form
+from users.forms import HotelForm
+
 def home(request):
     return render(request, 'login.html')
 
@@ -118,12 +120,29 @@ def hoteles(request):
     return render(request, 'hospedaje/hoteles.html')
 
 def crear_hotel(request):
-    return render(request, 'hospedaje/crear_hotel.html')
-
-def borrar_hotel(request, id):
-    print(id)
-    return redirect('hospedaje')
+    # utilizacion de form
+    formulario = HotelForm(request.POST or None, request.FILES or None)
+    if formulario.is_valid():
+        formulario.save()
+        return redirect('hospedaje')
+        
+    return render(request, 'hospedaje/crear_hotel.html', {'formulario': formulario})
 
 def editar_hotel(request, id):
-    print(id)
-    return render(request, 'hospedaje/editar_hotel.html')
+    hotel = Hotel.objects.get(id=id)
+    
+    # se ontienen los datos segun el id
+    formulario = HotelForm(request.POST or None, request.FILES or None, instance=hotel)
+    #actualizar cambios
+    if formulario.is_valid() and request.POST:
+        formulario.save()
+        return redirect('hospedaje')
+    return render(request, 'hospedaje/editar_hotel.html', {'formulario': formulario})
+
+def borrar_hotel(request, id):
+    hotel = Hotel.objects.get(id=id)
+    hotel.delete()
+    return redirect('hospedaje')
+
+
+

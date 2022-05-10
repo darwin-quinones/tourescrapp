@@ -31,3 +31,8 @@ class Hotel(models.Model):
     def __str__(self):
         fila = 'hotel ' + self.nombre + ' - ' + 'puntaje: ' + self.puntaje
         return fila
+    
+    # funcion para eliminar la foto 
+    def delete(self, using=None, keep_parents=False):
+        self.imagen.storage.delete(self.imagen.name)
+        super().delete()

@@ -1,4 +1,33 @@
 {% extends 'base.html' %}
 {% block body %}
 <h2>hospedaje</h2>
+    
+<table class="table">
+    <thead>
+    <tr>
+        <th> Id</th>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Puntaje</th>
+        <th> Actions</th>
+    </tr>
+    </thead>
+    <tr>
+        {% for hotel in hotels %}
+            <tr>
+                <td>{{ hotel.id }}</td>
+                <td>{{ hotel.imagen }}</td>
+                <td>{{ hotel.nombre }}</td>
+                <td>{{ hotel.precio }}</td>
+               
+                <td>{{ hotel.puntaje }}</td>
+                <td> Editar |
+                    <a href=""> Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tr>
+
+</table>
 {% endblock %}

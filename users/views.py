@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
 import csv
-from .models import User
+# importaciones de los modelos
+from .models import User, Hotel
 from django.contrib import messages
 #ingreso user
 from django.contrib.auth import authenticate, login
@@ -83,10 +84,16 @@ def sign_up(request):
 #hospedaje
 
 def hospedaje(request):
-    return render(request, 'hospedaje/hospedaje.html')
+    try:
+        hotels = Hotel.objects.all()
+        print(hotels)
+    except Exception:
+        pass
+    return render(request, 'hospedaje/hospedaje.html', {'hotels': hotels})
 
 def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
+
 def tabla(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")

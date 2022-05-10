@@ -19,3 +19,15 @@ class User(models.Model):
     def __str__(self):
         fila = 'persona: ' + self.nombres + ' - ' + 'email: ' + self.email
         return fila
+    
+class Hotel(models.Model):
+    id = models.AutoField(primary_key=True)
+    imagen = models.ImageField(upload_to='imagenes/', null=True, verbose_name="imagen")
+    nombre = models.CharField(max_length=100)
+    precio = models.CharField(max_length= 50)
+    puntaje = models.CharField(max_length= 50)
+    status = models.IntegerField()
+
+    def __str__(self):
+        fila = 'hotel ' + self.nombre + ' - ' + 'puntaje: ' + self.puntaje
+        return fila

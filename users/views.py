@@ -26,7 +26,7 @@ def login_view(request):
         #print(email, password)
         try:
             user = User.objects.get(email=email)
-            print(user.nombres)
+            
             # verificacion constraseña encriptada
             if check_password_hash(user.password, password) == True:
                 request.session['id'] = user.id
@@ -63,11 +63,10 @@ def sign_up(request):
         lugar_reci = data['lugar_reci'].strip()
         username = data['username'].strip()
         password = data['password'].strip()
-        print(nombres, apellidos, email, genero, tipo_identificacion, identificacion, fecha_naci, telefono, lugar_reci, username, password)
         
         # incriptarcion password
         password_hashed = generate_password_hash(password)
-        print('password hashed: ',password_hashed)
+        
        
         try:
             #se crea un nuevo user
@@ -76,17 +75,17 @@ def sign_up(request):
             genero=genero, tipo_identificacion=tipo_identificacion, identificacion=identificacion, fecha_nacimiento=fecha_naci, lugar_recidencia=lugar_reci)
         except:
            pass
-        print(new_user)
+        
         return JsonResponse({'status': True})
     return redirect('home')
 
 
-#hospedaje
+#hospedaje web scraping para mostrar hoteles
 
 def hospedaje(request):
     try:
         hotels = Hotel.objects.all()
-        print(hotels)
+      
     except Exception:
         pass
     return render(request, 'hospedaje/hospedaje.html', {'hotels': hotels})
@@ -94,7 +93,7 @@ def hospedaje(request):
 def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
 
-def tabla(request):
+def hoteles(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
     options.add_argument("--log-level=3")
@@ -110,11 +109,21 @@ def tabla(request):
     for name in hotelNames:
         lists = "-- " * 2
         lists = lists.split()
-        print(name.text.strip())
+        
         lists[0] = name.text.strip()
         lists[1] = prices[i].text
-        sheet = pd.read_csv('file.csv')
-        df = pd.DataFrame([lists])
-        df.to_csv("file.csv", index=False, mode='a', header=False)
-        i = i + 1
-    return render(request, 'hospedaje/tabla.html')
+        # guardar hotesl en la base de datos
+        Hotel.objects.create(nombre=name.text.strip(), precio=prices[i].text, status=1)
+        
+    return render(request, 'hospedaje/hoteles.html')
+
+def crear_hotel(request):
+    return render(request, 'hospedaje/crear_hotel.html')
+
+def borrar_hotel(request, id):
+    print(id)
+    return redirect('hospedaje')
+
+def editar_hotel(request, id):
+    print(id)
+    return render(request, 'hospedaje/editar_hotel.html')

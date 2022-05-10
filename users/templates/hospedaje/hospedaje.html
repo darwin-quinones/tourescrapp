@@ -1,33 +1,43 @@
 {% extends 'base.html' %}
 {% block body %}
 <h2>hospedaje</h2>
-    
-<table class="table">
-    <thead>
-    <tr>
-        <th> Id</th>
-        <th>Imagen</th>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Puntaje</th>
-        <th> Actions</th>
-    </tr>
-    </thead>
-    <tr>
-        {% for hotel in hotels %}
-            <tr>
-                <td>{{ hotel.id }}</td>
-                <td>{{ hotel.imagen }}</td>
-                <td>{{ hotel.nombre }}</td>
-                <td>{{ hotel.precio }}</td>
-               
-                <td>{{ hotel.puntaje }}</td>
-                <td> Editar |
-                    <a href=""> Eliminar</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tr>
 
-</table>
+<div class="card">
+    <div class="card-header">
+        <a name="" id="" class="btn btn-success" href="{% url 'crear_hotel' %}" role="button">Agregar</a>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Libros</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Puntaje</th>
+                    <th>Actiones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if hotels %}
+                    {% for hotel in hotels %}
+                        <tr>
+                            <td>{{libro.forloop}}</td>
+                            <td>{{ hotel.imagen }}</td>
+                            <td>{{ hotel.nombre }}</td>
+                            <td>{{ hotel.precio }}</td>
+                            <td>{{ hotel.puntaje }}</td>
+
+                            <td> <a name="" id="" class="btn btn-info" href="{% url 'editar_hotel' hotel.id %}" role="button">Editar</a>| 
+                            <a name="" id="" class="btn btn-danger" href="{% url 'borrar_hotel' hotel.id %}" role="button">Borrar</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                
+            </tbody>
+        </table>
+        
+    </div>
+</div>
 {% endblock %}

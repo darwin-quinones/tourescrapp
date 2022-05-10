@@ -14,7 +14,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'hospedaje' %}">Hospedaje</a>
@@ -44,10 +44,10 @@
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
               </svg></a>
               <ul class="dropdown-menu" style="margin-left:-110px" aria-labelledby="navbarDropdown2">
-                <li><a class="dropdown-item" href="#">Perfil</a></li>
-                <li><a class="dropdown-item" href="#">Configuración</a></li>
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+                <li><a class="dropdown-item" href="{% url 'setting' %}">Configuración</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Salir</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout_request' %}">Salir</a></li>
               </ul>
             </li>
           </div>

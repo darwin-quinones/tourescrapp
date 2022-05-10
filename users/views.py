@@ -9,7 +9,7 @@ import csv
 from .models import User, Hotel
 from django.contrib import messages
 #ingreso user
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 import json
 # incriptaciones
@@ -80,6 +80,19 @@ def sign_up(request):
         
         return JsonResponse({'status': True})
     return redirect('home')
+
+def logout_request(request):
+    del request.session['id']
+    logout(request)
+    messages.success(request, 'Saliste Exitosamente')
+    return redirect('home')
+
+def setting(request):
+    return render(request, 'profile/setting.html')
+
+
+def profile(request):
+    return render(request, 'profile/profile.html')
 
 
 #hospedaje web scraping para mostrar hoteles

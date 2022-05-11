@@ -108,6 +108,9 @@ def hospedaje(request):
 def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
 
+def hospedaje2(request):
+    return render(request, 'hospedaje/cards.html')
+
 def hoteles(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")

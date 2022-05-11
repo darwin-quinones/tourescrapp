@@ -13,6 +13,7 @@ urlpatterns = [
     
     # web scraping con hoteles
     path('hospedaje', views.hospedaje, name='hospedaje'),
+    path('hospedaje2', views.hospedaje2, name='hospedaje2'),
     path('experiancia-culinaria', views.expe_culinaria, name='expe_culinaria'),
     path('hoteles', views.hoteles, name='hoteles'),
     path('crear-hotel', views.crear_hotel, name='crear_hotel'),

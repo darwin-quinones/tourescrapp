@@ -1,6 +1,11 @@
 from django.urls import path
 from . import views
 
+# para cargar Images
+from django.conf import settings
+from django.contrib.staticfiles.urls import static
+
+
 urlpatterns = [
     #user urls
     path('', views.home, name='home'),
@@ -20,7 +25,7 @@ urlpatterns = [
     path('borrar-hotel/<int:id>', views.borrar_hotel, name='borrar_hotel'),
     path('editar-hotel/<int:id>', views.editar_hotel, name='editar_hotel'),
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

@@ -1,23 +1,28 @@
+# Users model
+
+#Django
+from django.contrib.auth.models import User
+
 from django.db import models
 
 
 # Create your models here.
-class User(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombres = models.CharField(max_length=60)
-    apellidos = models.CharField(max_length=60)
-    email = models.EmailField(max_length=60)
-    username = models.CharField(max_length=60)
-    password = models.CharField(max_length=250)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     lugar_recidencia = models.CharField(max_length=60)
     genero = models.CharField(max_length=20)
     telefono = models.CharField(max_length=20)
     identificacion = models.IntegerField()
     tipo_identificacion = models.CharField(max_length=50)
     fecha_nacimiento = models.CharField(max_length=20)
+    picture = models.ImageField(
+        upload_to = 'imagenes/',
+        blank = True, 
+        null = True
+    )
 
     def __str__(self):
-        fila = 'persona: ' + self.nombres + ' - ' + 'email: ' + self.email
+        fila = 'persona: ' + self.user.username + ' - ' + 'email: ' + self.user.email
         return fila
     
 class Hotel(models.Model):

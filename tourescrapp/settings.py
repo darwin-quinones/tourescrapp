@@ -127,6 +127,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# login_required 
 LOGIN_URL = 'login'
 
 # configuracion para img
@@ -146,3 +147,6 @@ ESTATICFILES_FINDERS = [
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     ]
 ]
+
+
+# django login 

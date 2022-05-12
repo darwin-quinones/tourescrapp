@@ -37,7 +37,7 @@
             <div class="contenedor__login-register">
                 <!--===== LOGIN =====-->
                 
-                <form action="{% url 'login_view' %}" class="formulario__login" method="POST">{% csrf_token %}
+                <form action="{% url 'login' %}" class="formulario__login" method="POST">{% csrf_token %}
                     {% if messages %}
                         {% for message in messages %}
                             {% if message.tags == 'error' %}
@@ -54,7 +54,7 @@
                     {% endif%}
 
                     <h2>Iniciar Sesion</h2>
-                    <input name="email" type="email" placeholder="Ingresar Correo" required>
+                    <input name="username" type="text" placeholder="Ingresar username" required>
                     <input type="password" name="password" placeholder="Ingresar contraseña" required>
                     <div class="row  justify-content-center">
                         <button class="col-7"type="submit">Ingresar</button>

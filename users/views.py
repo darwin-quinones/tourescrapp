@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
 import csv
+from django.contrib.auth.decorators import login_required
 # importaciones de los modelos
 from .models import User, Hotel
 from django.contrib import messages
@@ -22,26 +23,16 @@ def home(request):
     return render(request, 'login.html')
 
 def login_view(request):
-    if(request.method == 'POST'):
-        email = request.POST['email']
+    if request.method == 'POST':
+        username = request.POST['username']
         password = request.POST['password']
-        #print(email, password)
-        try:
-            user = User.objects.get(email=email)
-            
-            # verificacion constraseña encriptada
-            if check_password_hash(user.password, password) == True:
-                request.session['id'] = user.id
-                request.session['nombres'] = user.nombres
-                request.session['email'] = user.email
-                messages.success(request, f'{user.nombres.capitalize()} logueado exitosamente')
-                return redirect('index')
-            else:
-                messages.error(request, 'Contraseña incorrecta')
-                return redirect('home')
-
-        except:
-            messages.info(request, 'Correo incorrecto')
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('index')
+        else:
+            redirect('home')
+        
     return redirect('home')
 
 
@@ -82,7 +73,7 @@ def sign_up(request):
     return redirect('home')
 
 def logout_request(request):
-    del request.session['id']
+   
     logout(request)
     messages.success(request, 'Saliste Exitosamente')
     return redirect('home')
@@ -96,8 +87,9 @@ def profile(request):
 
 
 #hospedaje web scraping para mostrar hoteles
-
+@login_required
 def hospedaje(request):
+    
     try:
         hotels = Hotel.objects.all()
       
@@ -108,6 +100,7 @@ def hospedaje(request):
 def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
 
+@login_required
 def hospedaje2(request):
     hotels = Hotel.objects.all()
     return render(request, 'hospedaje/cards.html', {'hotels': hotels})

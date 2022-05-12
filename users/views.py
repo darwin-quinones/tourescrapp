@@ -148,8 +148,10 @@ def crear_hotel(request):
 
 @login_required
 def editar_hotel(request, id):
-    hotel = Hotel.objects.get(id=id)
-    
+    try:
+        hotel = Hotel.objects.get(id=id)
+    except Hotel.DoesNotExist as e:
+        return redirect('hospedaje')
     # se ontienen los datos segun el id
     formulario = HotelForm(request.POST or None, request.FILES or None, instance=hotel)
     #actualizar cambios
@@ -160,7 +162,10 @@ def editar_hotel(request, id):
 
 @login_required
 def borrar_hotel(request, id):
-    hotel = Hotel.objects.get(id=id)
+    try:
+        hotel = Hotel.objects.get(id=id)
+    except Hotel.DoesNotExist as e:
+        return redirect('hospedaje')
     hotel.delete()
     return redirect('hospedaje')
 

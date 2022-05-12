@@ -109,7 +109,8 @@ def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
 
 def hospedaje2(request):
-    return render(request, 'hospedaje/cards.html')
+    hotels = Hotel.objects.all()
+    return render(request, 'hospedaje/cards.html', {'hotels': hotels})
 
 def hoteles(request):
     options = webdriver.ChromeOptions()
@@ -131,8 +132,9 @@ def hoteles(request):
         lists[0] = name.text.strip()
         lists[1] = prices[i].text
         # guardar hotesl en la base de datos
-        Hotel.objects.create(nombre=name.text.strip(), precio=prices[i].text, status=1)
-        
+        Hotel.objects.create(nombre=name.text.strip(), precio=prices[i].text, status=1, imagen='imagenes/humildad.jpg', puntaje=5)
+    
+    print('Se hico el web scraping :)')
     return render(request, 'hospedaje/hoteles.html')
 
 def crear_hotel(request):

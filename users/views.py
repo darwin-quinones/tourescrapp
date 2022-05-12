@@ -1,20 +1,15 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from datetime import datetime
 from bs4 import BeautifulSoup
-import pandas as pd
 from selenium import webdriver
-import csv
 from django.contrib.auth.decorators import login_required
 # importaciones de los modelos
-from .models import User, Hotel
+from .models import Hotel, Profile
+from django.contrib.auth.models import User
 from django.contrib import messages
 #ingreso user
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 import json
-# incriptaciones
-from werkzeug.security import generate_password_hash, check_password_hash
 
 # django form
 from users.forms import HotelForm
@@ -26,16 +21,19 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        # inicio de session
         user = authenticate(request, username=username, password=password)
         if user:
+            
             login(request, user)
+            messages.success(request, f'{user.username.capitalize()} logueado exitosamente')
             return redirect('index')
         else:
-            redirect('home')
-        
+            messages.error(request, 'Username y contraseña incorrecta')
+            return redirect('home')
     return redirect('home')
 
-
+@login_required
 def index(request):
     return render(request, 'index.html')
 
@@ -45,9 +43,7 @@ def sign_up(request):
         data = json.loads(request.body)
         
         #se crean nuevas variables
-        nombres = data['nombres'].strip()
-        apellidos = data['apellidos'].strip()
-        email = data['email'].strip()
+       
         genero = data['genero'].strip()
         tipo_identificacion = data['tipo_identificacion'].strip()
         identificacion = data['identificacion'].strip()
@@ -56,32 +52,41 @@ def sign_up(request):
         lugar_reci = data['lugar_reci'].strip()
         username = data['username'].strip()
         password = data['password'].strip()
-        
-        # incriptarcion password
-        password_hashed = generate_password_hash(password)
-        
+
        
-        try:
-            #se crea un nuevo user
-            new_user = User.objects.create(
-            nombres=nombres, apellidos=apellidos, email=email, username=username, password=password_hashed, telefono=telefono,
-            genero=genero, tipo_identificacion=tipo_identificacion, identificacion=identificacion, fecha_nacimiento=fecha_naci, lugar_recidencia=lugar_reci)
-        except:
-           pass
+        #crear un nuevo user
+        new_user = User.objects.create_user(username=username, password=password)
+        new_user.first_name = data['nombres'].strip()
+        new_user.last_name = data['apellidos'].strip()
+        new_user.email = data['email'].strip()
+        new_user.save()
         
+        # crear un profile: se crea con una nueva instancia de la clase Profile
+        profile = Profile(
+            user=new_user, 
+            telefono=telefono,
+            genero=genero, 
+            tipo_identificacion=tipo_identificacion, 
+            identificacion=identificacion, 
+            fecha_nacimiento=fecha_naci, 
+            lugar_recidencia=lugar_reci
+        )
+        profile.save()
         return JsonResponse({'status': True})
     return redirect('home')
 
+@login_required
 def logout_request(request):
    
     logout(request)
     messages.success(request, 'Saliste Exitosamente')
     return redirect('home')
 
+@login_required
 def setting(request):
     return render(request, 'profile/setting.html')
 
-
+@login_required
 def profile(request):
     return render(request, 'profile/profile.html')
 
@@ -105,6 +110,7 @@ def hospedaje2(request):
     hotels = Hotel.objects.all()
     return render(request, 'hospedaje/cards.html', {'hotels': hotels})
 
+@login_required
 def hoteles(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
@@ -130,6 +136,7 @@ def hoteles(request):
     print('Se hico el web scraping :)')
     return render(request, 'hospedaje/hoteles.html')
 
+@login_required
 def crear_hotel(request):
     # utilizacion de form
     formulario = HotelForm(request.POST or None, request.FILES or None)
@@ -139,6 +146,7 @@ def crear_hotel(request):
         
     return render(request, 'hospedaje/crear_hotel.html', {'formulario': formulario})
 
+@login_required
 def editar_hotel(request, id):
     hotel = Hotel.objects.get(id=id)
     
@@ -150,6 +158,7 @@ def editar_hotel(request, id):
         return redirect('hospedaje')
     return render(request, 'hospedaje/editar_hotel.html', {'formulario': formulario})
 
+@login_required
 def borrar_hotel(request, id):
     hotel = Hotel.objects.get(id=id)
     hotel.delete()

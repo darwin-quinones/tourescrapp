@@ -15,7 +15,7 @@ import json
 from users.forms import HotelForm
 
 def home(request):
-    return render(request, 'login.html')
+    return render(request, 'index/login.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -35,7 +35,7 @@ def login_view(request):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index/index.html')
 
 def sign_up(request):
     if(request.method == 'POST'):
@@ -95,9 +95,16 @@ def profile(request):
     return render(request, 'profile/profile.html', {'user': user})
 
 
-#hospedaje web scraping para mostrar hoteles
 @login_required
 def hospedaje(request):
+    
+    hotels = Hotel.objects.all()
+    return render(request, 'paginas/hospedaje/cards.html', {'hotels': hotels})
+
+
+#hospedaje web scraping para mostrar hoteles
+@login_required
+def hospedaje2(request):
     
      # validacion de usuario
     if request.user.is_superuser:
@@ -106,29 +113,24 @@ def hospedaje(request):
         
         except Exception:
             pass
-        return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/hospedaje.html', {'hotels': hotels})
+        return render(request, 'paginas/hospedajeAdmin/hospedajeAdmin.html', {'hotels': hotels})
     else:
         return redirect('index')
     
    
 
 def expe_culinaria(request):
-    return render(request, 'Paginas/hospedaje/expe_culinaria.html')
+    return render(request, 'paginas/hospedaje/expe_culinaria.html')
 
-@login_required
-def hospedaje2(request):
-    
-    hotels = Hotel.objects.all()
-    return render(request, 'Paginas/hospedaje/cards.html', {'hotels': hotels})
 
 @login_required
 def restaurantes(request):
-    return render(request, 'Paginas/hospedaje/restaurantes.html')
+    return render(request, 'paginas/restaurante/restaurantes.html')
 
 
 @login_required
 def para_hacer(request):
-    return render(request, 'Paginas/hospedaje/para_hacer.html')
+    return render(request, 'paginas/actividades/para_hacer.html')
 
 
 @login_required
@@ -155,7 +157,7 @@ def hoteles(request):
         Hotel.objects.create(nombre=name.text.strip(), precio=prices[i].text, status=1, imagen='imagenes/humildad.jpg', puntaje=5)
     
     print('Se hico el web scraping :)')
-    return render(request, 'Paginas/hospedaje/hoteles.html')
+    return render(request, 'paginas/hospedaje/hoteles.html')
 
 @login_required
 def crear_hotel(request):
@@ -165,7 +167,7 @@ def crear_hotel(request):
         formulario.save()
         return redirect('hospedaje')
         
-    return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/crear_hotel.html', {'formulario': formulario})
+    return render(request, 'paginas/hospedajeAdmin/crear_hotel.html', {'formulario': formulario})
 
 @login_required
 def editar_hotel(request, id):
@@ -179,7 +181,7 @@ def editar_hotel(request, id):
     if formulario.is_valid() and request.POST:
         formulario.save()
         return redirect('hospedaje')
-    return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/editar_hotel.html', {'formulario': formulario})
+    return render(request, 'paginas/hospedajeAdmin/editar_hotel.html', {'formulario': formulario})
 
 @login_required
 def borrar_hotel(request, id):

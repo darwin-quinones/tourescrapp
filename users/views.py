@@ -106,29 +106,29 @@ def hospedaje(request):
         
         except Exception:
             pass
-        return render(request, 'hospedaje/hospedaje.html', {'hotels': hotels})
+        return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/hospedaje.html', {'hotels': hotels})
     else:
         return redirect('index')
     
    
 
 def expe_culinaria(request):
-    return render(request, 'hospedaje/expe_culinaria.html')
+    return render(request, 'Paginas/hospedaje/expe_culinaria.html')
 
 @login_required
 def hospedaje2(request):
     
     hotels = Hotel.objects.all()
-    return render(request, 'hospedaje/cards.html', {'hotels': hotels})
+    return render(request, 'Paginas/hospedaje/cards.html', {'hotels': hotels})
 
 @login_required
 def restaurantes(request):
-    return render(request, 'hospedaje/restaurantes.html')
+    return render(request, 'Paginas/hospedaje/restaurantes.html')
 
 
 @login_required
 def para_hacer(request):
-    return render(request, 'hospedaje/para_hacer.html')
+    return render(request, 'Paginas/hospedaje/para_hacer.html')
 
 
 @login_required
@@ -155,7 +155,7 @@ def hoteles(request):
         Hotel.objects.create(nombre=name.text.strip(), precio=prices[i].text, status=1, imagen='imagenes/humildad.jpg', puntaje=5)
     
     print('Se hico el web scraping :)')
-    return render(request, 'hospedaje/hoteles.html')
+    return render(request, 'Paginas/hospedaje/hoteles.html')
 
 @login_required
 def crear_hotel(request):
@@ -165,7 +165,7 @@ def crear_hotel(request):
         formulario.save()
         return redirect('hospedaje')
         
-    return render(request, 'hospedaje/crear_hotel.html', {'formulario': formulario})
+    return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/crear_hotel.html', {'formulario': formulario})
 
 @login_required
 def editar_hotel(request, id):
@@ -179,7 +179,7 @@ def editar_hotel(request, id):
     if formulario.is_valid() and request.POST:
         formulario.save()
         return redirect('hospedaje')
-    return render(request, 'hospedaje/editar_hotel.html', {'formulario': formulario})
+    return render(request, 'Paginas/hospedaje/templates/Paginas/hospedajeAdmin/editar_hotel.html', {'formulario': formulario})
 
 @login_required
 def borrar_hotel(request, id):

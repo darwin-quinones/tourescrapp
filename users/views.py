@@ -107,8 +107,13 @@ def expe_culinaria(request):
 
 @login_required
 def hospedaje2(request):
-    hotels = Hotel.objects.all()
-    return render(request, 'hospedaje/cards.html', {'hotels': hotels})
+    
+    # validacion de usuario
+    if request.user.is_superuser:
+        hotels = Hotel.objects.all()
+        return render(request, 'hospedaje/cards.html', {'hotels': hotels})
+    else:
+        return redirect('index')
 
 @login_required
 def restaurantes(request):

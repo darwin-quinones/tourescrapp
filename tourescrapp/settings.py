@@ -130,7 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # login_required 
 LOGIN_URL = 'login'
 
-# configuracion para img
+# configuracion para imgs
 MEDIA_ROOT = BASE_DIR/ 'media'
 MEDIA_URL = '/media/'
 

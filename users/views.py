@@ -88,19 +88,29 @@ def setting(request):
 
 @login_required
 def profile(request):
-    return render(request, 'profile/profile.html')
+    # se obtienen los datos del user
+    user_id = request.user.id 
+    user = Profile.objects.get(user_id=user_id)
+    print(user)
+    return render(request, 'profile/profile.html', {'user': user})
 
 
 #hospedaje web scraping para mostrar hoteles
 @login_required
 def hospedaje(request):
     
-    try:
-        hotels = Hotel.objects.all()
-      
-    except Exception:
-        pass
-    return render(request, 'hospedaje/hospedaje.html', {'hotels': hotels})
+     # validacion de usuario
+    if request.user.is_superuser:
+        try:
+            hotels = Hotel.objects.all()
+        
+        except Exception:
+            pass
+        return render(request, 'hospedaje/hospedaje.html', {'hotels': hotels})
+    else:
+        return redirect('index')
+    
+   
 
 def expe_culinaria(request):
     return render(request, 'hospedaje/expe_culinaria.html')
@@ -108,12 +118,8 @@ def expe_culinaria(request):
 @login_required
 def hospedaje2(request):
     
-    # validacion de usuario
-    if request.user.is_superuser:
-        hotels = Hotel.objects.all()
-        return render(request, 'hospedaje/cards.html', {'hotels': hotels})
-    else:
-        return redirect('index')
+    hotels = Hotel.objects.all()
+    return render(request, 'hospedaje/cards.html', {'hotels': hotels})
 
 @login_required
 def restaurantes(request):

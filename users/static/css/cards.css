@@ -19,3 +19,12 @@ p.clasificacion label:hover~label,
 p.clasificacion input:checked~label {
     color: #dd4;
 }
+
+a{
+    text-decoration: none;
+}
+a:link, a:visited,  a:hover, a:active
+{
+    color: #000000;
+    text-decoration: none;
+}

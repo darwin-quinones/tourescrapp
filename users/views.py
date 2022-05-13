@@ -111,6 +111,16 @@ def hospedaje2(request):
     return render(request, 'hospedaje/cards.html', {'hotels': hotels})
 
 @login_required
+def restaurantes(request):
+    return render(request, 'hospedaje/restaurantes.html')
+
+
+@login_required
+def para_hacer(request):
+    return render(request, 'hospedaje/para_hacer.html')
+
+
+@login_required
 def hoteles(request):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")

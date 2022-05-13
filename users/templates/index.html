@@ -1,4 +1,41 @@
 {% extends 'base.html' %}
+{% load static%}
 {% block body %}
-    <h1>Este es el index</h1>
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}">
+    <h1 style="text-align:center;"><strong>¡ Bienvenido !</strong></h1> <br><br>
+   <div class="row">
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <a href="{% url 'hospedaje' %}">
+                <img src="https://i.imgur.com/nRDNGre.png" class="card-img-top" alt="img-playas baru">
+                <div class="card-body">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h3>Hospedaje</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <a href="{% url 'expe_culinaria' %}">
+                <img src="https://i.imgur.com/Jy0XJ9o.png" class="card-img-top" alt="img-playas baru">
+                <div class="card-body">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h3>Experiencia culinaria</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <a href="{% url 'para_hacer' %}">
+                <img src="https://i.imgur.com/wd4gMWs.png" class="card-img-top" alt="img-playas baru">
+                <div class="card-body">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <h3>Para hacer</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+   </div>
 {% endblock %}

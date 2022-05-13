@@ -127,11 +127,17 @@ def expe_culinaria(request):
 def restaurantes(request):
     return render(request, 'paginas/restaurante/restaurantes.html')
 
+@login_required
+def restaurantes2(request):
+    return render(request, 'paginas/restauranteAdmin/restauranteAdmin.html')
 
 @login_required
 def para_hacer(request):
     return render(request, 'paginas/actividades/para_hacer.html')
 
+@login_required
+def para_hacer2(request):
+    return render(request, 'paginas/actividadesAdmin/actividadesAdmin.html')
 
 @login_required
 def hoteles(request):

@@ -16,31 +16,35 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
               </li>
-              {% if request.user.is_superuser %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'hospedaje2' %}">Hospedaje Admin</a>
-                </li>
-              {% endif %}
+             
            
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'hospedaje' %}">Hospedaje</a>
                 </li>
              
-             
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'restaurantes' %}">
-                  Restaurantes
-                </a>
                 <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{% url 'expe_culinaria' %}">Culinaria</a></li>
                   <li><a class="dropdown-item" href="#">Otra</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Otra cosa</a></li>
                 </ul> -->
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'restaurantes' %}">Restaurantes</a>
+                </li>
               <li class="nav-item">
                 <a href="{% url 'para_hacer' %}" class="nav-link">Para hacer</a>
               </li>
+              {% if request.user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'hospedaje2' %}">Hospedaje Admin</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'restaurantes2' %}">Restaurantes Admin</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'para_hacer2' %}" class="nav-link">Para hacer Admin</a>
+                </li>
+              {% endif %}
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">

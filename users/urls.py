@@ -21,7 +21,10 @@ urlpatterns = [
     path('hospedaje2', views.hospedaje2, name='hospedaje2'),
     path('experiancia-culinaria', views.expe_culinaria, name='expe_culinaria'),
     path('para-hacer', views.para_hacer, name='para_hacer'),
+    path('para-hacer2', views.para_hacer2, name='para_hacer2'),
     path('restaurantes', views.restaurantes, name='restaurantes'),
+    path('restaurantes2', views.restaurantes2, name='restaurantes2'),
+    
     path('hoteles', views.hoteles, name='hoteles'),
     path('crear-hotel', views.crear_hotel, name='crear_hotel'),
     path('borrar-hotel/<int:id>', views.borrar_hotel, name='borrar_hotel'),

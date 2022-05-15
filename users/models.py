@@ -22,7 +22,7 @@ class Profile(models.Model):
     )
 
     def __str__(self):
-        fila = 'persona: ' + self.user.username + ' - ' + 'email: ' + self.user.email
+        fila = 'persona: ' + self.user.username + ' - ' + 'email: ' + self.user.email + ' - '+ ' identificacion '+ self.tipo_identificacion + ' - '+ ' fecha_nacimiento '+ self.fecha_nacimiento + ' - '+ ' lugar_recidencia '+ self.lugar_recidencia
         return fila
     
 class Hotel(models.Model):

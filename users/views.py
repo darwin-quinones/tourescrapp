@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 # importaciones de los modelos
 from .models import Hotel, Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
+from users.forms import ProfileForm
 #ingreso user
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -91,8 +93,32 @@ def profile(request):
     # se obtienen los datos del user
     user_id = request.user.id 
     user = Profile.objects.get(user_id=user_id)
-    print(user)
+   
     return render(request, 'profile/profile.html', {'user': user})
+
+
+@login_required
+def subir_img_perfil(request):
+    
+    if request.method == 'POST':
+        # img_perfil = request.FILES['img_perfil']
+        
+        # fss = FileSystemStorage()
+        # file = fss.save(img_perfil.name, img_perfil)
+        # file_url = fss.url(file)
+        # print(file_url)
+        # print(file)
+       
+        # user.picture = file_url
+        # user.save()
+        print('llego')
+        user_id = request.user.id 
+        user = Profile.objects.get(user_id=user_id)
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+       
+        if form.is_valid():
+            form.save()
+    return redirect('profile')
 
 
 @login_required
@@ -197,6 +223,5 @@ def borrar_hotel(request, id):
         return redirect('hospedaje')
     hotel.delete()
     return redirect('hospedaje')
-
 
 

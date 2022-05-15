@@ -7,7 +7,8 @@ from django.core.files.storage import FileSystemStorage
 from .models import Hotel, Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
-from users.forms import ProfileForm
+# forms 
+from users.forms import ProfileForm, UserProfileForm
 #ingreso user
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -93,31 +94,41 @@ def profile(request):
     # se obtienen los datos del user
     user_id = request.user.id 
     user = Profile.objects.get(user_id=user_id)
+ 
+    if request.method == 'POST':
+        # se edita la img con el perfil
+        form_img = ProfileForm(request.POST or None, request.FILES or None, instance=user)
+       
+        if form_img.is_valid():
+            form_img.save()
+        else:
+            return redirect('profile')
+            
    
     return render(request, 'profile/profile.html', {'user': user})
 
 
 @login_required
-def subir_img_perfil(request):
+def editar_user(request):
+    user_id = request.user.id 
+    user = Profile.objects.get(user_id=user_id)
     
     if request.method == 'POST':
-        # img_perfil = request.FILES['img_perfil']
         
-        # fss = FileSystemStorage()
-        # file = fss.save(img_perfil.name, img_perfil)
-        # file_url = fss.url(file)
-        # print(file_url)
-        # print(file)
-       
-        # user.picture = file_url
-        # user.save()
-        print('llego')
-        user_id = request.user.id 
-        user = Profile.objects.get(user_id=user_id)
-        form = ProfileForm(request.POST, request.FILES, instance=user)
-       
-        if form.is_valid():
-            form.save()
+        form_user = UserProfileForm(request.POST or None, request.FILES or None, instance=request.user)
+        content = {
+            'form_user': form_user,
+            'user': user
+        }
+        print(form_user)
+        if form_user.is_valid():
+            form_user.save()  
+        else:
+            print(form_user.errors)
+            return render(request, 'profile/profile.html', content)
+        
+        return render(request, 'profile/profile.html', content)
+    
     return redirect('profile')
 
 

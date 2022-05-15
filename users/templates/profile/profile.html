@@ -5,25 +5,25 @@
 <div class="container">
     <div class="main-body">
         <!-- /Breadcrumb -->
-
+        {% if user %}
         <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                            <img src="media/{{user.picture}}" alt="Admin"
                                 class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4>{{ request.user.first_name }}</h4>
                                 <p class="text-secondary mb-1">Software programmer</p>
                                 <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop">Edit</button>
+                                    data-bs-target="#staticBackdrop">Editar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% if user %}
+            
 
             <div class="col-md-8">
                 <div class="card mb-3">
@@ -43,7 +43,9 @@
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 {{user.user.email}}
+                                
                             </div>
+                            
                         </div>
                         <hr>
                         <div class="row">
@@ -75,7 +77,8 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a class="btn btn-info " target="__blank" href="">Edit</a>
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2">Editar</button>
                             </div>
                         </div>
                     </div>
@@ -83,12 +86,13 @@
 
             </div>
 
-            {% endif %}
+            
 
         </div>
+        {% endif %}
     </div>
 
-    <!-- Modal -->
+    <!-- Modal foto -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -98,21 +102,69 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                   <form action="{% url 'subir_img_perfil' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
-                            <input class="form-control" type="file" name="picture" id="picture">
+                            
+                            <label for="formFile" class="form-label">Imagen</label>
+                            <input class="form-control" value="{{ user.picture }}" type="file" name="picture" id="picture" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Telefono</label>
+                            <input class="form-control" type="number" value="{{ user.telefono }}" name="telefono" id="telefono" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Fecha nacimiento</label>
+                            <input class="form-control" type="date" value="{{ user.fecha_nacimiento }}" name="fecha_nacimiento" id="fecha_nacimiento" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Dirección</label>
+                            <input class="form-control" type="text" value="{{ user.lugar_recidencia }}" name="lugar_recidencia" id="lugar_recidencia" required>
                         </div>
 
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Subir</button>
+                            <button type="submit" class="btn btn-primary">Editar</button>
                         </div>
-                   </form>
-                      
+                    </form>
+
                 </div>
-                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal user -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Editar perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'editar_user' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" value="{{ user.user.first_name }}" placeholder=""name="first_name" id="first_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Apellidos</label>
+                            <input class="form-control" type="text" value="{{ user.user.last_name }}" name="last_name" id="last_name" required>
+                        </div>
+                      
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                        </div>
+                    </form>
+
+                </div>
+
             </div>
         </div>
     </div>

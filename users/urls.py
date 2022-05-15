@@ -15,7 +15,7 @@ urlpatterns = [
     path('logout', views.logout_request, name='logout_request'),
     path('setting', views.setting, name='setting'),
     path('profile', views.profile, name='profile'),
-    path('profile-img', views.subir_img_perfil, name='subir_img_perfil'),
+    path('user-edit', views.editar_user, name='editar_user'),
     
     # web scraping con hoteles
     path('hospedaje', views.hospedaje, name='hospedaje'),
